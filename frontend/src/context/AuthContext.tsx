@@ -51,6 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const logout = async () => {
+        if (!auth) return;
         try {
             await signOut(auth);
         } catch (error) {
