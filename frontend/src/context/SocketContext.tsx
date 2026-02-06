@@ -65,7 +65,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 newSocket.disconnect();
             }
         };
-    }, [user, getToken, socket]);
+    }, [user, getToken]);
 
     return (
         <SocketContext.Provider value={{ socket, connected }}>
