@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             return;
         }
 
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth!, (user) => {
             setUser(user);
             setLoading(false);
         });
@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             return;
         }
         try {
-            await signInWithPopup(auth, googleProvider);
+            await signInWithPopup(auth!, googleProvider);
         } catch (error) {
             console.error('Login error:', error);
         }
@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const logout = async () => {
         if (!auth) return;
         try {
-            await signOut(auth);
+            await signOut(auth!);
         } catch (error) {
             console.error('Logout error:', error);
         }
