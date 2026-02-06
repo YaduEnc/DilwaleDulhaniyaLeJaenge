@@ -25,6 +25,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (!auth) {
+            setLoading(false);
+            return;
+        }
+
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setUser(user);
             setLoading(false);
@@ -34,6 +39,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     const loginWithGoogle = async () => {
+        if (!auth) {
+            console.error('Firebase Auth not initialized. Check your environment variables.');
+            return;
+        }
         try {
             await signInWithPopup(auth, googleProvider);
         } catch (error) {

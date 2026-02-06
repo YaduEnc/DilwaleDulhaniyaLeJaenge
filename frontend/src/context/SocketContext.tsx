@@ -22,8 +22,13 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         let newSocket: Socket | null = null;
 
         const connectSocket = async () => {
-            if (user) {
+            if (user && getToken) {
                 const token = await getToken();
+
+                if (!SOCKET_URL.startsWith('http')) {
+                    console.error('Invalid NEXT_PUBLIC_SOCKET_URL. It must start with http:// or https://');
+                    return;
+                }
 
                 newSocket = io(SOCKET_URL, {
                     auth: { token }
