@@ -1,4 +1,4 @@
-import { adminAuth } from '../auth/firebaseAdmin';
+import { adminAuth } from '../auth/firebaseAdmin.js';
 import { Socket } from 'socket.io';
 
 export const socketAuthMiddleware = async (socket: Socket, next: (err?: Error) => void) => {

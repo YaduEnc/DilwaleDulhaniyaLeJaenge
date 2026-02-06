@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import { matchmakingManager } from '../matchmaking/matchmakingManager';
+import { matchmakingManager } from '../matchmaking/matchmakingManager.js';
 
 export const initializeSocketHandlers = (io: Server) => {
     io.on('connection', (socket: Socket) => {

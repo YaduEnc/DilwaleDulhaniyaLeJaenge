@@ -3,8 +3,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { initializeSocketHandlers } from './socket/socketHandler';
-import { socketAuthMiddleware } from './socket/authMiddleware';
+import { initializeSocketHandlers } from './socket/socketHandler.js';
+import { socketAuthMiddleware } from './socket/authMiddleware.js';
 
 dotenv.config();
 
