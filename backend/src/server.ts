@@ -30,7 +30,11 @@ const io = new Server(httpServer, {
 // Auth Middleware for Socket.IO
 io.use(socketAuthMiddleware);
 
-// Health Check
+// Health Check & Root
+app.get('/', (req, res) => {
+    res.send('Dilwale Backend is Running!');
+});
+
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'up', timestamp: new Date().toISOString() });
 });
