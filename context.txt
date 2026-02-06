@@ -1,0 +1,304 @@
+Project Context: Random Video Chat MVP (Omegle-style)
+1. Project Goal
+
+Build a fully functional MVP for a random video chat platform similar to Omegle, but:
+
+Modern
+
+Minimal
+
+Clean UI
+
+No gradients
+
+No flashy visuals
+
+Focused on performance and clarity
+
+This is not a demo. This is a working MVP.
+
+We will build it step by step, feature by feature, without skipping foundations.
+
+2. Core Product Definition
+
+A web app where:
+
+Users authenticate
+
+Choose interests
+
+Get matched randomly with another user
+
+Can video chat, audio chat, and text chat
+
+Can skip and get a new match instantly
+
+3. Tech Stack (Strict)
+Frontend
+
+Framework: Next.js (App Router)
+
+Language: TypeScript
+
+Styling: Tailwind CSS
+
+UI style:
+
+Minimal
+
+Flat
+
+Neutral colors (black, white, gray)
+
+No gradients
+
+No skeuomorphism
+
+No heavy animations
+
+Backend
+
+Custom signaling server
+
+Runtime: Node.js
+
+Framework: Express
+
+WebSocket library: Socket.IO
+
+Hosted on:
+
+Render (preferred)
+
+Railway / Fly.io acceptable alternatives
+
+Database & Auth
+
+Firebase
+
+Firebase Authentication
+
+Firestore (for minimal metadata only)
+
+Firebase is used ONLY for:
+
+Authentication
+
+User identity
+
+Basic profile data (interests, flags)
+
+All real-time logic is handled by the custom backend.
+
+4. Authentication Rules
+
+Use Firebase Authentication
+
+Auth methods:
+
+Google Sign-In
+
+Anonymous Sign-In (optional for MVP)
+
+On successful login:
+
+Generate Firebase ID Token
+
+Send token to backend
+
+Backend verifies token using Firebase Admin SDK
+
+Backend never trusts the client blindly
+
+5. Matching Logic
+Interest Matching
+
+User selects interests (tags)
+
+Backend matchmaking:
+
+First try matching users with at least 1 common interest
+
+If none available after timeout, match randomly
+
+Matching Rules
+
+One active chat per user
+
+No self-matching
+
+No rematching with the same user immediately
+
+Queue-based matchmaking system
+
+6. Real-Time Communication
+Video & Audio
+
+Use WebRTC
+
+Peer-to-peer media connection
+
+Backend acts ONLY as:
+
+Signaling server
+
+Matchmaker
+
+Text Chat
+
+Real-time messaging via WebSocket
+
+Messages are not stored (ephemeral)
+
+7. Core Features (MVP Only)
+Must Have
+
+User authentication
+
+Interest selection
+
+Random matchmaking
+
+Video chat
+
+Audio chat
+
+Text chat
+
+Skip / Next button
+
+Clean connection state handling
+
+Explicitly NOT in MVP
+
+No user profiles
+
+No friend system
+
+No chat history
+
+No moderation AI
+
+No recording
+
+No payments
+
+No ads
+
+8. UI / UX Principles
+
+Black & white dominant palette
+
+One main screen at a time
+
+Zero visual noise
+
+Fast transitions
+
+Clear states:
+
+Connecting
+
+Waiting
+
+Connected
+
+Disconnected
+
+UI should feel:
+
+Calm
+
+Focused
+
+Professional
+
+Slightly brutalist
+
+9. File Structure Expectations
+Frontend (example)
+/app
+  /auth
+  /chat
+  /interests
+/components
+/hooks
+/lib
+/types
+
+Backend (example)
+/src
+  /socket
+  /matchmaking
+  /webrtc
+  /auth
+  server.ts
+
+10. Development Rules for AI
+
+Build incrementally
+
+Never jump ahead
+
+Always explain:
+
+Why a decision is made
+
+What problem it solves
+
+Prefer clarity over cleverness
+
+Avoid over-engineering
+
+Everything must run locally before deployment
+
+Treat security seriously (token verification, socket auth)
+
+11. Step-by-Step Build Order (Mandatory)
+
+Project structure
+
+Firebase setup
+
+Authentication flow
+
+Backend server + WebSocket setup
+
+Auth verification on sockets
+
+Interest selection UI
+
+Matchmaking logic
+
+WebRTC signaling
+
+Video/audio connection
+
+Text chat
+
+Skip / reconnect logic
+
+Basic UI polish
+
+Deployment
+
+No steps skipped. No shortcuts.
+
+12. End Goal of MVP
+
+At the end, a user should be able to:
+
+Open the site
+
+Log in
+
+Choose interests
+
+Get matched
+
+Video + audio + text chat
+
+Skip and instantly get another user
+
+That’s it.
+Anything beyond this is post-MVP.
