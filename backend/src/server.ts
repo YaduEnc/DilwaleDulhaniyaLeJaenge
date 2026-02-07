@@ -19,7 +19,9 @@ app.use(express.json());
 const io = new Server(httpServer, {
     cors: {
         origin: [
+            "http://localhost:5173",
             "http://localhost:3000",
+            "https://dilwale-dulhaniya-le-jaenge.vercel.app",
             process.env.FRONTEND_URL || ""
         ].filter(Boolean),
         methods: ["GET", "POST"],

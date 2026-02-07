@@ -31,7 +31,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
                 const newSocket = io(SOCKET_URL, {
                     auth: { token },
-                    transports: ['websocket'],
                 });
 
                 newSocket.on('connect', () => {
