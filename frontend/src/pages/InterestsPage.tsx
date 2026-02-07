@@ -1,8 +1,6 @@
-'use client';
-
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 
 const POPULAR_INTERESTS = [
     "Music", "Coding", "Movies", "Anime", "Gaming",
@@ -11,15 +9,15 @@ const POPULAR_INTERESTS = [
 
 export default function InterestsPage() {
     const { user, loading } = useAuth();
-    const router = useRouter();
+    const navigate = useNavigate();
     const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
     const [customInterest, setCustomInterest] = useState("");
 
     useEffect(() => {
         if (!loading && !user) {
-            router.push('/');
+            navigate('/');
         }
-    }, [user, loading, router]);
+    }, [user, loading, navigate]);
 
     const toggleInterest = (interest: string) => {
         if (selectedInterests.includes(interest)) {
@@ -39,10 +37,8 @@ export default function InterestsPage() {
     };
 
     const handleStartMatching = () => {
-        if (typeof window !== 'undefined') {
-            localStorage.setItem('userInterests', JSON.stringify(selectedInterests));
-        }
-        router.push('/chat');
+        localStorage.setItem('userInterests', JSON.stringify(selectedInterests));
+        navigate('/chat');
     };
 
     if (loading || !user) {
@@ -116,7 +112,7 @@ export default function InterestsPage() {
             </div>
 
             <button
-                onClick={() => router.push('/')}
+                onClick={() => navigate('/')}
                 className="mt-8 text-[10px] uppercase border-b border-black hover:text-gray-500"
             >
                 BACK TO START

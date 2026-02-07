@@ -1,9 +1,7 @@
-'use client';
-
 import { useAuth } from "@/context/AuthContext";
 import { useSocket } from "@/context/SocketContext";
 import { useEffect, useState, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 
 const ICE_SERVERS = [
     { urls: 'stun:stun.l.google.com:19302' },
@@ -13,7 +11,7 @@ const ICE_SERVERS = [
 export default function ChatPage() {
     const { user, loading } = useAuth();
     const { socket, connected } = useSocket();
-    const router = useRouter();
+    const navigate = useNavigate();
 
     const [matchStatus, setMatchStatus] = useState<'searching' | 'connected' | 'disconnected'>('searching');
     const [room, setRoom] = useState<string | null>(null);
@@ -79,7 +77,7 @@ export default function ChatPage() {
 
     useEffect(() => {
         if (!loading && !user) {
-            router.push('/');
+            navigate('/');
             return;
         }
 
@@ -89,7 +87,7 @@ export default function ChatPage() {
             const interests = savedInterests ? JSON.parse(savedInterests) : [];
             socket.emit('find_match', { interests });
         }
-    }, [user, loading, connected, socket, router]);
+    }, [user, loading, connected, socket, navigate]);
 
     useEffect(() => {
         if (!socket) return;
@@ -157,7 +155,6 @@ export default function ChatPage() {
             socket.emit('skip');
             setMatchStatus('searching');
             hasRequestedMatchRef.current = false;
-            // Immediate re-search
             const savedInterests = localStorage.getItem('userInterests');
             const interests = savedInterests ? JSON.parse(savedInterests) : [];
             socket.emit('find_match', { interests });
