@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from './AuthContext';
 
@@ -11,58 +11,57 @@ interface SocketContextType {
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:5001';
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:10000';
 
 export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { user, getToken } = useAuth();
     const [socket, setSocket] = useState<Socket | null>(null);
     const [connected, setConnected] = useState(false);
+    const socketRef = useRef<Socket | null>(null);
 
     useEffect(() => {
-        let newSocket: Socket | null = null;
-
-        const connectSocket = async () => {
-            if (user && getToken) {
+        if (user && getToken) {
+            const connect = async () => {
                 const token = await getToken();
+                if (!token) return;
 
-                if (!SOCKET_URL.startsWith('http')) {
-                    console.error('Invalid NEXT_PUBLIC_SOCKET_URL. It must start with http:// or https://');
-                    return;
+                if (socketRef.current) {
+                    socketRef.current.disconnect();
                 }
 
-                newSocket = io(SOCKET_URL, {
-                    auth: { token }
+                const newSocket = io(SOCKET_URL, {
+                    auth: { token },
+                    transports: ['websocket'],
                 });
 
                 newSocket.on('connect', () => {
-                    console.log('Socket connected:', newSocket?.id);
+                    console.log('Connected to socket server');
                     setConnected(true);
                 });
 
                 newSocket.on('disconnect', () => {
-                    console.log('Socket disconnected');
+                    console.log('Disconnected from socket server');
                     setConnected(false);
                 });
 
-                newSocket.on('connect_error', (err) => {
-                    console.error('Socket connection error:', err.message);
-                });
-
+                socketRef.current = newSocket;
                 setSocket(newSocket);
-            } else {
-                if (socket) {
-                    socket.disconnect();
-                    setSocket(null);
-                    setConnected(false);
-                }
-            }
-        };
+            };
 
-        connectSocket();
+            connect();
+        } else {
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+                socketRef.current = null;
+                setSocket(null);
+                setConnected(false);
+            }
+        }
 
         return () => {
-            if (newSocket) {
-                newSocket.disconnect();
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+                socketRef.current = null;
             }
         };
     }, [user, getToken]);

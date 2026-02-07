@@ -39,7 +39,6 @@ export default function InterestsPage() {
     };
 
     const handleStartMatching = () => {
-        // Save selected interests to local storage or state for the chat screen
         if (typeof window !== 'undefined') {
             localStorage.setItem('userInterests', JSON.stringify(selectedInterests));
         }
@@ -84,8 +83,8 @@ export default function InterestsPage() {
                             key={interest}
                             onClick={() => toggleInterest(interest)}
                             className={`border border-black px-3 py-1 text-xs uppercase transition-all ${selectedInterests.includes(interest)
-                                    ? 'bg-black text-white'
-                                    : 'bg-white text-black hover:bg-gray-100'
+                                ? 'bg-black text-white'
+                                : 'bg-white text-black hover:bg-gray-100'
                                 }`}
                         >
                             {interest}
@@ -106,18 +105,14 @@ export default function InterestsPage() {
                     onClick={handleStartMatching}
                     disabled={selectedInterests.length === 0}
                     className={`w-full p-4 text-sm font-bold border-2 border-black transition-all uppercase ${selectedInterests.length > 0
-                            ? 'bg-black text-white hover:bg-white hover:text-black'
-                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        ? 'bg-black text-white hover:bg-white hover:text-black'
+                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                         }`}
                 >
                     {selectedInterests.length > 0
                         ? `Start Matching (${selectedInterests.length})`
                         : 'Select at least one interest'}
                 </button>
-
-                <p className="mt-4 text-[10px] text-center text-gray-400 uppercase">
-                    Matching prioritized by interests. If no match found, random user will be selected.
-                </p>
             </div>
 
             <button

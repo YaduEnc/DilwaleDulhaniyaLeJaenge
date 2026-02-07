@@ -10,8 +10,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!loading && user) {
-      // Redirect to interests or chat if logged in
-      // For now, staying on the home page but showing "Connected"
+      // Logic for automatic redirection if needed
     }
   }, [user, loading, router]);
 
@@ -28,14 +27,14 @@ export default function Home() {
       <div className="max-w-md w-full border-2 border-black p-8">
         <h1 className="text-4xl font-bold mb-2 tracking-tighter">DILWALE</h1>
         <p className="text-xs mb-8 border-b border-black pb-4 uppercase tracking-widest text-gray-500">
-          Modern Random Video Chat MVP
+          Random Video Chat MVP
         </p>
 
         {user ? (
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between border-b border-black pb-2">
               <span className="text-xs uppercase">Identity</span>
-              <span className="text-sm">{user.email}</span>
+              <span className="text-sm truncate ml-4 text-right">{user.email}</span>
             </div>
             <button
               onClick={() => router.push('/interests')}
@@ -43,9 +42,6 @@ export default function Home() {
             >
               Start Chatting
             </button>
-            <p className="text-[10px] text-gray-400 text-center uppercase">
-              You are connected. Select interests to begin matching.
-            </p>
           </div>
         ) : (
           <div className="flex flex-col gap-6">
@@ -59,15 +55,12 @@ export default function Home() {
             >
               Sign in with Google
             </button>
-            <p className="text-[10px] text-gray-400 text-center uppercase">
-              By continuing, you agree to our minimal terms of service.
-            </p>
           </div>
         )}
       </div>
 
       <footer className="mt-12 text-[10px] text-gray-300 uppercase tracking-widest">
-        &copy; 2025 Dilwale Dulhaniya Le Jaenge Project
+        &copy; 2025 Dilwale Project
       </footer>
     </main>
   );

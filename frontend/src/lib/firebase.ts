@@ -12,13 +12,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase only if the API key is present
-let app;
-if (firebaseConfig.apiKey) {
-    app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-}
+const app = (firebaseConfig.apiKey && (getApps().length > 0 ? getApp() : initializeApp(firebaseConfig))) || null;
 
-const auth = app ? getAuth(app) : null;
-const db = app ? getFirestore(app) : null;
-const googleProvider = new GoogleAuthProvider();
-
-export { auth, db, googleProvider };
+export const auth = app ? getAuth(app) : null;
+export const db = app ? getFirestore(app) : null;
+export const googleProvider = new GoogleAuthProvider();
