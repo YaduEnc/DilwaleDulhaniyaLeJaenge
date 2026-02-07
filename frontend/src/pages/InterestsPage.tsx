@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const POPULAR_INTERESTS = [
-    "Music", "Coding", "Movies", "Anime", "Gaming",
-    "Politics", "Art", "Travel", "Tech", "Fitness"
+    "Cinema", "Engineering", "Travel", "Philosophy", "Gaming",
+    "Underground", "Visual Arts", "Strategy", "Tech", "Fitness"
 ];
 
 export default function InterestsPage() {
@@ -44,79 +44,90 @@ export default function InterestsPage() {
     if (loading || !user) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-white text-black font-mono">
-                <p className="text-sm">LOADING...</p>
+                <p className="animate-pulse text-sm">LOADING COMPONENT...</p>
             </div>
         );
     }
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-white text-black px-6 font-mono">
-            <div className="max-w-xl w-full border-2 border-black p-8">
-                <h1 className="text-3xl font-bold mb-1 tracking-tighter uppercase">Interests</h1>
-                <p className="text-[10px] mb-8 border-b border-black pb-4 uppercase tracking-widest text-gray-500">
-                    Select what you want to talk about
-                </p>
-
-                <form onSubmit={addCustomInterest} className="mb-8 flex gap-2">
-                    <input
-                        type="text"
-                        value={customInterest}
-                        onChange={(e) => setCustomInterest(e.target.value)}
-                        placeholder="ADD CUSTOM INTEREST..."
-                        className="flex-1 border-2 border-black p-2 text-sm focus:outline-none focus:bg-gray-50 uppercase"
-                    />
+        <main className="flex flex-col items-center justify-center min-h-screen bg-[#FDFDFD] text-black px-6">
+            <div className="max-w-3xl w-full border-[3px] border-black bg-white p-10 md:p-14 brutalist-shadow">
+                <div className="flex justify-between items-start mb-10 border-b-2 border-black pb-6">
+                    <div>
+                        <h1 className="text-5xl font-black italic uppercase italic tracking-tighter">Interests</h1>
+                        <p className="text-[10px] uppercase font-black text-gray-400 tracking-[0.4em]">Filter your connections</p>
+                    </div>
                     <button
-                        type="submit"
-                        className="border-2 border-black bg-black text-white px-4 py-2 text-sm font-bold hover:bg-white hover:text-black transition-all"
+                        onClick={() => navigate('/')}
+                        className="text-[10px] font-black uppercase border-2 border-black px-3 py-1 hover:bg-black hover:text-white transition-all"
                     >
-                        ADD
+                        CANCEL
                     </button>
+                </div>
+
+                <form onSubmit={addCustomInterest} className="mb-12">
+                    <label className="block text-[10px] uppercase font-black mb-2">Target Variable (Custom):</label>
+                    <div className="flex gap-4">
+                        <input
+                            type="text"
+                            value={customInterest}
+                            onChange={(e) => setCustomInterest(e.target.value)}
+                            placeholder="Type an interest..."
+                            className="flex-1 border-b-4 border-black p-4 text-xl font-bold focus:outline-none focus:bg-gray-50 uppercase placeholder:text-gray-200"
+                        />
+                        <button
+                            type="submit"
+                            className="bg-black text-white px-8 py-2 text-sm font-black hover:bg-[#E11D48] transition-all uppercase"
+                        >
+                            ADD
+                        </button>
+                    </div>
                 </form>
 
-                <div className="flex flex-wrap gap-2 mb-10">
-                    {POPULAR_INTERESTS.map(interest => (
-                        <button
-                            key={interest}
-                            onClick={() => toggleInterest(interest)}
-                            className={`border border-black px-3 py-1 text-xs uppercase transition-all ${selectedInterests.includes(interest)
-                                ? 'bg-black text-white'
-                                : 'bg-white text-black hover:bg-gray-100'
-                                }`}
-                        >
-                            {interest}
-                        </button>
-                    ))}
-                    {selectedInterests.filter(i => !POPULAR_INTERESTS.includes(i)).map(interest => (
-                        <button
-                            key={interest}
-                            onClick={() => toggleInterest(interest)}
-                            className="border border-black px-3 py-1 text-xs uppercase bg-black text-white"
-                        >
-                            {interest} [X]
-                        </button>
-                    ))}
+                <div className="mb-14">
+                    <label className="block text-[10px] uppercase font-black mb-4 text-gray-400">Primary Categories:</label>
+                    <div className="flex flex-wrap gap-3">
+                        {POPULAR_INTERESTS.map(interest => (
+                            <button
+                                key={interest}
+                                onClick={() => toggleInterest(interest)}
+                                className={`border-2 border-black px-5 py-2 text-sm font-black uppercase transition-all flex items-center gap-2 ${selectedInterests.includes(interest)
+                                    ? 'bg-black text-white translate-x-1 translate-y-1 shadow-none'
+                                    : 'bg-white text-black hover:bg-gray-100'
+                                    }`}
+                            >
+                                {interest}
+                                {selectedInterests.includes(interest) && <span className="text-[#E11D48]">●</span>}
+                            </button>
+                        ))}
+                        {selectedInterests.filter(i => !POPULAR_INTERESTS.includes(i)).map(interest => (
+                            <button
+                                key={interest}
+                                onClick={() => toggleInterest(interest)}
+                                className="border-2 border-black px-5 py-2 text-sm font-black uppercase bg-black text-white flex items-center gap-2"
+                            >
+                                {interest} <span className="text-[#E11D48]">×</span>
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 <button
                     onClick={handleStartMatching}
                     disabled={selectedInterests.length === 0}
-                    className={`w-full p-4 text-sm font-bold border-2 border-black transition-all uppercase ${selectedInterests.length > 0
-                        ? 'bg-black text-white hover:bg-white hover:text-black'
-                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    className={`w-full p-6 text-xl font-black border-4 border-black transition-all uppercase flex justify-between items-center ${selectedInterests.length > 0
+                        ? 'bg-black text-white hover:bg-[#E11D48] hover:border-[#E11D48]'
+                        : 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200'
                         }`}
                 >
-                    {selectedInterests.length > 0
-                        ? `Start Matching (${selectedInterests.length})`
-                        : 'Select at least one interest'}
+                    <span>{selectedInterests.length > 0 ? "Enter Matchmaking" : "Select Topic"}</span>
+                    {selectedInterests.length > 0 && <span className="bg-[#E11D48] px-3 py-1 text-xs">READY ({selectedInterests.length})</span>}
                 </button>
             </div>
 
-            <button
-                onClick={() => navigate('/')}
-                className="mt-8 text-[10px] uppercase border-b border-black hover:text-gray-500"
-            >
-                BACK TO START
-            </button>
+            <p className="mt-10 text-[10px] font-black uppercase tracking-widest text-gray-300">
+                Awaiting Operator Approval...
+            </p>
         </main>
     );
 }
